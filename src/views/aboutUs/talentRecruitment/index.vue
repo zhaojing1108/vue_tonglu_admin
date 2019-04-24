@@ -54,7 +54,8 @@ export default {
   mixins: [initData],
   data() {
     return {
-      delLoading: false, sup_this: this
+      delLoading: false, 
+      sup_this: this
     }
   },
   created() {
