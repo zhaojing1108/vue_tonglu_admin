@@ -1,20 +1,25 @@
 <template>
-  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
+  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px" :close-on-click-modal="false">
     <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-      <el-form-item label="标题">
+      <el-form-item label="菜单标题">
         <el-input v-model="form.titile" style="width: 370px;"/>
       </el-form-item>
       <el-form-item label="简介描述">
         <el-input v-model="form.description" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="对应图标url">
+      <el-form-item label="对应图标">
         <el-input v-model="form.imgUrl" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="排序">
+      <el-form-item label="菜单排序">
         <el-input v-model="form.sortNum" style="width: 370px;"/>
       </el-form-item>
       <el-form-item label="创建时间">
-        <el-input v-model="form.createTime" style="width: 370px;"/>
+        <!-- <el-input v-model="form.createTime" style="width: 370px;"/> -->
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="选择日期">
+        </el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -47,7 +52,34 @@ export default {
         imgUrl: '',
         sortNum: '',
         createTime: ''
-      }
+      },
+      pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
+        value1: '',
+        value2: '',
     }
   },
   methods: {

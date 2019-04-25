@@ -1,17 +1,25 @@
 <template>
-  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
+  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px" :close-on-click-modal="false">
     <el-form ref="form" :model="form" size="small" label-width="80px">
       <el-form-item label="图片地址">
         <el-input v-model="form.imgAddress" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="排序">
+      <el-form-item label="图片排序">
         <el-input v-model="form.sortNum" style="width: 370px;"/>
       </el-form-item>
       <el-form-item label="图片描述">
         <el-input v-model="form.description" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="是否在使用">
-        <el-input v-model="form.isuse" style="width: 370px;"/>
+      <el-form-item label="是否使用">
+        <!-- <el-input v-model="form.isuse" style="width: 370px;"/> -->
+        <el-select v-model="value" placeholder="请选择" @change="selectUse">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       </el-form-item>
       <el-form-item label="图片别名">
         <el-input v-model="form.name" style="width: 370px;"/>
@@ -47,7 +55,15 @@ export default {
         description: '',
         isuse: '',
         name: ''
-      }
+      },
+      options: [{
+          value: '1',
+          label: '是'
+        }, {
+          value: '2',
+          label: '否'
+        }],
+        value: ''
     }
   },
   methods: {
@@ -101,6 +117,16 @@ export default {
         isuse: '',
         name: ''
       }
+    },
+    selectUse(vID){
+      let obj;
+      // let isuse;
+      // let form;
+      obj = this.options.find((item)=>{
+        return item.value=== vID;                   
+      }); 
+      this.form.isuse = obj.value;
+      // console.log(this.form.isuse)
     }
   }
 }

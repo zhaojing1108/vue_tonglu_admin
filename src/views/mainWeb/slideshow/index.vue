@@ -5,9 +5,9 @@
     <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
       <el-table-column prop="id" label="id"/>
       <el-table-column prop="imgAddress" label="图片地址"/>
-      <el-table-column prop="sortNum" label="排序"/>
+      <el-table-column prop="sortNum" label="图片排序"/>
       <el-table-column prop="description" label="图片描述"/>
-      <el-table-column prop="isuse" label="是否在使用"/>
+      <el-table-column prop="isuse" label="是否使用"/>
       <el-table-column prop="name" label="图片别名"/>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">

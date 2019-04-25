@@ -2,12 +2,12 @@
   <div class="app-container">
     <eHeader :query="query"/>
     <!--表格渲染-->
-    <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
+    <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;" >
       <el-table-column prop="id" label="id"/>
-      <el-table-column prop="titile" label="标题"/>
+      <el-table-column prop="titile" label="菜单标题"/>
       <el-table-column prop="description" label="简介描述"/>
-      <el-table-column prop="imgUrl" label="对应图标url"/>
-      <el-table-column prop="sortNum" label="排序"/>
+      <el-table-column prop="imgUrl" label="对应图标"/>
+      <el-table-column prop="sortNum" label="菜单排序"/>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
           <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/>

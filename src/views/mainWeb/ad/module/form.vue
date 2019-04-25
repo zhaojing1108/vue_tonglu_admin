@@ -1,16 +1,16 @@
 <template>
-  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
+  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px" :close-on-click-modal="false">
     <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-      <el-form-item label="标题">
+      <el-form-item label="广告标题">
         <el-input v-model="form.title" style="width: 370px;"/>
       </el-form-item>
       <el-form-item label="简介内容">
         <el-input v-model="form.content" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="链接">
+      <el-form-item label="广告链接">
         <el-input v-model="form.url" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="图片链接url">
+      <el-form-item label="图片链接">
         <el-input v-model="form.imgUrl" style="width: 370px;"/>
       </el-form-item>
     </el-form>

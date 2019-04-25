@@ -1,16 +1,19 @@
 <template>
-  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
+  <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px" :close-on-click-modal="false">
     <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
       <el-form-item label="景点名称">
         <el-input v-model="form.name" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="排序">
+      <el-form-item label="图片排序">
         <el-input v-model="form.sortNum" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="图片url">
+      <el-form-item label="主页图片">
         <el-input v-model="form.imgUrl" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="描述">
+      <el-form-item label="轮播图片">
+        <el-input v-model="form.imgs" style="width: 370px;"/>
+      </el-form-item>
+      <el-form-item label="图片描述">
         <el-input v-model="form.description" style="width: 370px;"/>
       </el-form-item>
       <el-form-item label="交通方式">
@@ -45,6 +48,7 @@ export default {
         name: '',
         sortNum: '',
         imgUrl: '',
+        imgs:'',
         description: '',
         transportation: ''
       }
