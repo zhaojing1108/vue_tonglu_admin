@@ -4,10 +4,10 @@
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
       <el-table-column prop="id" label="id"/>
-      <el-table-column prop="title" label="标题"/>
+      <el-table-column prop="title" label="广告标题"/>
       <el-table-column prop="content" label="简介内容"/>
-      <el-table-column prop="url" label="链接"/>
-      <el-table-column prop="imgUrl" label="图片链接url"/>
+      <el-table-column prop="url" label="广告链接"/>
+      <el-table-column prop="imgUrl" label="图片链接"/>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
           <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/>
