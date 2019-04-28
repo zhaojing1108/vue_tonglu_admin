@@ -5,7 +5,14 @@
       <el-table-column prop="id" label="id"/>
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="url" label="文章链接"/>
-      <el-table-column prop="category" label="所属分类1：热门活动，2：景区新闻3：旅游新闻"/>
+      <el-table-column prop="imgUrl" label="文章主图"/>
+      <el-table-column prop="category" label="所属分类">
+        <template slot-scope="scope">
+          <span v-if="scope.row.category == 1">热门活动</span>  
+          <span v-else-if="scope.row.category == 2">景区新闻</span>
+          <span v-else-if="scope.row.category == 3">旅游新闻</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="author" label="文章作者"/>
       <!-- <el-table-column prop="content" label="文章内容"/> -->
       <el-table-column prop="description" label="在首页上的简介"/>
@@ -32,6 +39,9 @@
         </template>
       </el-table-column> 
     </el-table>
+    <div style="margin-top: 20px;margin-left:20px" >
+      <el-button type="danger" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
+    </div>
     <!--分页组件-->
     <el-pagination
       :total="total"
@@ -41,6 +51,7 @@
       @current-change="pageChange"/>
   </div>
 </template>
+
 
 <script>
 import checkPermission from '@/utils/permission'
@@ -52,7 +63,14 @@ export default {
   mixins: [initData],
   data() {
     return {
-      delLoading: false, sup_this: this
+      delLoading: false, 
+      sup_this: this,
+      sels:[],
+      categorylist:[
+        {text:'热门活动',value:'热门活动'},
+        {text:'景区新闻',value:'景区新闻'},
+        {text:'旅游新闻',value:'旅游新闻'},
+      ]
     }
   },
   created() {
@@ -89,9 +107,29 @@ export default {
         this.$refs[id].doClose()
         console.log(err.response.data.message)
       })
-    }
+    },
+    // 批量删除
+    selsChange(sels) { 
+      this.sels = sels 
+    }, 
+    delGroup() { 
+      var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔 
+      console.log(ids)
+      this.delLoading = true
+      del(ids).then(res => {
+        this.delLoading = false
+        this.init()
+        this.$notify({
+          title: '删除成功',
+          type: 'success',
+          duration: 2500
+        })
+      }).catch(err => {
+        this.delLoading = false
+        console.log(err.response.data.message)
+      })
+    }, 
   }
-  
 }
 </script>
 

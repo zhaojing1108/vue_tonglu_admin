@@ -26,7 +26,6 @@ export default {
         name: this.data.name,
         sortNum: this.data.sortNum,
         imgUrl: this.data.imgUrl,
-        imgs:this.data.imgs,
         description: this.data.description,
         transportation: this.data.transportation
       }
