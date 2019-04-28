@@ -2,12 +2,26 @@
   <div class="app-container">
     <eHeader :query="query"/>
     <!--表格渲染-->
-    <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;" >
+    <el-table v-loading="loading" 
+    :data="data" 
+    size="small" 
+    border style="width: 100%;" 
+    :fit="true"
+    @row-click="handleCurrentChange" 
+    @selection-change="selsChange" 
+    ref="table">
+      <el-table-column 
+      type="selection" 
+      width="55"  
+      prop="uuid"
+      :reserve-selection="true">
+      </el-table-column>
       <el-table-column prop="id" label="id"/>
+      <el-table-column prop="sortNum" label="菜单排序" />
       <el-table-column prop="titile" label="菜单标题"/>
       <el-table-column prop="description" label="简介描述"/>
-      <el-table-column prop="imgUrl" label="对应图标"/>
-      <el-table-column prop="sortNum" label="菜单排序"/>
+      <el-table-column prop="imgUrl" label="对应图标"/>      
+      <el-table-column prop="createTime"  label="创建时间" :formatter="dateFormat"/>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
           <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/>
@@ -22,10 +36,14 @@
               <el-button :loading="delLoading" type="primary" size="mini" @click="subDelete(scope.row.id)">确定</el-button>
             </div>
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
-          </el-popover>
+          </el-popover>          
         </template>
       </el-table-column>
     </el-table>
+
+    <div style="margin-top: 20px">
+      <el-button type="warning" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
+    </div>
     <!--分页组件-->
     <el-pagination
       :total="total"
@@ -43,12 +61,16 @@ import { del } from '@/api/bannerMenu'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
 import edit from './module/edit'
+import moment from 'moment'; 
 export default {
   components: { eHeader, edit },
   mixins: [initData],
   data() {
     return {
-      delLoading: false, sup_this: this
+      delLoading: false,
+      sup_this: this,
+      createTime:'',
+      sels:[]
     }
   },
   created() {
@@ -81,7 +103,39 @@ export default {
         this.$refs[id].doClose()
         console.log(err.response.data.message)
       })
-    }
+    },
+    //时间格式化 
+    dateFormat(row, column) { 
+      var date = row[column.property]; 
+      if (date == undefined) { 
+        return ""; 
+      } 
+      return moment(date).format("YYYY年MM月DD日 "); 
+    },
+    // 批量删除
+    selsChange(sels) { 
+      this.sels = sels 
+    }, 
+    delGroup() { 
+      var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔 
+      console.log(ids)
+      this.delLoading = true
+      del(ids).then(res => {
+        this.delLoading = false
+        this.init()
+        this.$notify({
+          title: '删除成功',
+          type: 'success',
+          duration: 2500
+        })
+      }).catch(err => {
+        this.delLoading = false
+        console.log(err.response.data.message)
+      })
+    }, 
+    handleCurrentChange(row, event, column) { 
+      this.$refs.table.toggleRowSelection(row) 
+    } 
   }
 }
 </script>

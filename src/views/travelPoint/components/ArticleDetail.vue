@@ -11,9 +11,9 @@
             <el-form-item label="文章标题">
                 <el-input  style="width: 370px;" v-model="form.title"/>
             </el-form-item>
-            <el-form-item label="文章主图">
-                <el-input style="width: 370px;" v-model="form.imgUrl"/>
-            </el-form-item>
+            <!-- <el-form-item label="文章链接">
+                <el-input style="width: 370px;"/>
+            </el-form-item> -->
             <el-form-item label="所属分类">
               <!-- <el-input  style="width: 370px;" placeholder="1：热门活动，2：景区新闻，3：旅游新闻" v-model="form.category"/> -->
               <el-select v-model="form.category" placeholder="请选择文章所属分类"  @change='ssflSelect' style="width:370px">
@@ -28,19 +28,6 @@
             <el-form-item label="首页简介">
                 <el-input style="width: 70%;" v-model="form.description"/>
             </el-form-item>
-            <el-form-item label="首页图片">
-                <el-upload
-                  :before-remove="handleBeforeRemove"
-                  :headers="headers"
-                  :limit="1"
-                  :action="imagesUploadApi"
-                  :file-list="images"
-                  :data="uploadCangKuParams"
-                  :on-success="doimgSubmit"
-                  list-type="picture-card">
-                  <i class="el-icon-plus"/>
-                </el-upload>
-            </el-form-item>
             <el-form-item label="是否展示">
                 <el-select v-model="form.isShow" placeholder="请选择文章是否展示到列表"  @change='sfzsSelect' style="width:370px">
                   <el-option
@@ -52,10 +39,7 @@
                 </el-select>
             </el-form-item>
             <div ref="editor" style="text-align:left;margin: 5px" :value="form.content">
-<<<<<<< HEAD
-=======
-                   
->>>>>>> e3894007724c32867591ef64ccdac8618344a4ca
+                    
             </div>
         </div>
     </el-form>
@@ -70,18 +54,15 @@ import { mapGetters } from 'vuex'
 import E from 'wangeditor'
 import { getToken } from '@/utils/auth'
 import { add, edit ,editdetail} from '@/api/activityInformation'
-import { del } from '@/api/picture'
 //import Warning from './Warning'
 //import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
 var editor 
 const defaultForm = {
     title: '',
-    imgUrl:'',
     category: '',
     content: '',
     description: '',
-    isShow: '',
-    imgUrl:''
+    isShow: ''
 }
 export default {
   name: 'ArticleDetail',
@@ -115,13 +96,7 @@ export default {
         }, {
           value: '1',
           label: '展示'
-        }],
-        fileList: [],
-        pictures: [],
-        uploadCangKuParams: {bizType:'WARE_HOUSE_IMAGE'},
-        indexImgUrl:'',
-        images:[
-        ]  
+        }]
     }
   },
   computed: {
@@ -177,18 +152,14 @@ export default {
       },
       fetchData(id) {
         /*点击编辑，通过id获得后台的值*/
+        
         editdetail(id).then(res => {
-          console.log(res)
           //根据id获得的值传给前台
-          this.form.title=res.title         
-          this.form.imgUrl=res.imgUrl
-          console.log(res.title)
+          this.form.title=res.title
           this.form.category=String(res.category) 
           this.form.content=res.content
           this.form.description=res.description
           this.form.isShow=String(res.isShow) 
-          this.form.imgUrl=res.imgUrl
-          this.images=[{url:res.imgUrl}]
           editor.txt.html(res.content)
         }).catch(err => {
           
@@ -196,9 +167,8 @@ export default {
       },
       /*点击完成文章*/
       doSubmit() {
-            console.log(this.form)
             // 判断内容有没有输入完整
-            if(this.form.title===""||this.form.imgUrl===""||this.form.category===""||this.form.author===""||this.form.content===""||this.form.description===""||this.form.isShow===""){
+            if(this.form.title===""||this.form.category===""||this.form.author===""||this.form.content===""||this.form.description===""||this.form.isShow===""){
                this.$message({
                   message: '内容没有输入完整',
                   type: 'warning'
@@ -228,34 +198,15 @@ export default {
         //清空表单
         resetForm() {
           editor.txt.html('')
-          this.images=[]
           this.form = {
             title: '',
-            imgUrl:'',
             category: '',
             content: '',
             description: '',
-            isShow: '',
-            imgUrl:''
+            isShow: ''
           }
-        },
-        //删除图片
-        handleBeforeRemove(file, fileList) {
-          for (let i = 0; i < this.pictures.length; i++) {
-            if (this.pictures[i].uid === file.uid) {
-              del(this.pictures[i].id).then(res => {})
-              return true
-            }
-          }
-          //删除的时候清空form里面imgurl的值
-          this.form.imgUrl=""
-        },
-        //获得主图的链接
-        doimgSubmit(file, fileList){
-          var a=file.data
-          var thisa=a.join()
-          this.form.imgUrl=thisa
         }
+        
     }
 }
 </script>
