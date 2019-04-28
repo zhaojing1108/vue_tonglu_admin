@@ -6,6 +6,7 @@
       <el-table-column prop="id" label="id"/>
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="url" label="文章链接"/>
+      <el-table-column prop="imgUrl" label="文章主图"/>
       <el-table-column prop="category" label="所属分类1：热门活动，2：景区新闻3：旅游新闻"/>
       <el-table-column prop="author" label="文章作者"/>
       <el-table-column prop="content" label="文章内容"/>

@@ -2,7 +2,21 @@
   <div class="app-container">
     <eHeader :query="query"/>
     <!--表格渲染-->
-    <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
+    <el-table 
+    v-loading="loading" 
+    :data="data" 
+    size="small" border 
+    style="width: 100%;"
+    :fit="true"
+    @row-click="handleCurrentChange" 
+    @selection-change="selsChange" 
+    ref="table">
+      <el-table-column 
+      type="selection" 
+      width="55"  
+      prop="uuid"
+      :reserve-selection="true">
+      </el-table-column>
       <el-table-column prop="id" label="id"/>
       <el-table-column prop="title" label="广告标题"/>
       <el-table-column prop="content" label="简介内容"/>
@@ -26,6 +40,9 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="margin-top: 20px">
+      <el-button type="warning" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
+    </div>
     <!--分页组件-->
     <el-pagination
       :total="total"
@@ -47,7 +64,9 @@ export default {
   mixins: [initData],
   data() {
     return {
-      delLoading: false, sup_this: this
+      delLoading: false, 
+      sup_this: this,
+      sels:[]
     }
   },
   created() {
@@ -83,7 +102,30 @@ export default {
         this.$refs[id].doClose()
         console.log(err.response.data.message)
       })
-    }
+    },
+    selsChange(sels) { 
+      this.sels = sels 
+    }, 
+    delGroup() { 
+      var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔 
+      console.log(ids)
+      this.delLoading = true
+      del(ids).then(res => {
+        this.delLoading = false
+        this.init()
+        this.$notify({
+          title: '删除成功',
+          type: 'success',
+          duration: 2500
+        })
+      }).catch(err => {
+        this.delLoading = false
+        console.log(err.response.data.message)
+      })
+    }, 
+    handleCurrentChange(row, event, column) { 
+      this.$refs.table.toggleRowSelection(row) 
+    } 
   }
 }
 </script>

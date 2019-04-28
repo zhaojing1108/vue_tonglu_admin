@@ -1,35 +1,42 @@
 <template>
-  <div class="app-container">
-    <eHeader :query="query"/>
-    <!--表格渲染-->
+  <div>
+    <router-link :to="'/example/create/'"><el-button type="primary" size="small" style="margin:10px 15px 5px">添加文章</el-button></router-link>
     <el-table 
-    :data="data" 
+    v-loading="loading" 
+    :data="data" size="small" border 
+    style="width: 98%;margin:10px auto;"
     :fit="true"
     @row-click="handleCurrentChange" 
     @selection-change="selsChange" 
-    ref="table"
-    v-loading="loading" >
-      <el-table-column 
+    ref="table">
+    <el-table-column 
       type="selection" 
       width="55"  
       prop="uuid"
       :reserve-selection="true">
       </el-table-column>
-      <el-table-column prop="id" label="id"/>
-      <el-table-column prop="sortNum" label="图片排序"  />
-      <el-table-column prop="imgAddress" label="图片地址"/>
+      <!-- <el-table-column prop="id" label="id"/>
+      <el-table-column prop="title" label="文章标题"/>
+      <el-table-column prop="url" label="文章链接"/>
+      <el-table-column prop="category" label="所属分类1：热门活动，2：景区新闻3：旅游新闻"/>
+      <el-table-column prop="author" label="文章作者"/>
+      <el-table-column prop="description" label="文章内容"/>
+      <el-table-column prop="isShow" label="是否显示"/>
+      <el-table-column label="操作" width="150px" align="center"> -->
+      <el-table-column prop="sortNum" label="景点排序" type="selection"/>
+      <el-table-column prop="name" label="景点名称"/>
+      <el-table-column prop="imgUrl" label="主页图片"/>
+      <el-table-column prop="imgs" label="轮播图片"/>
       <el-table-column prop="description" label="图片描述"/>
-      <el-table-column  label="是否使用">
-        <template slot-scope="scope">
-          <span v-if="scope.row.isuse == 1">是</span>  
-          <span v-else>否</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="图片别名"/>
-
+      <el-table-column prop="transportation" label="交通方式"/>
       <el-table-column label="操作" width="150px" align="center">
+
         <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/>
+          <router-link :to="'/example/edit/'+scope.row.id" :data="scope.row" :sup_this="sup_this">
+            <el-button type="primary" size="small">
+             	 编辑
+            </el-button>
+          </router-link>
           <el-popover
             v-if="checkPermission(['ADMIN'])"
             :ref="scope.row.id"
@@ -43,17 +50,15 @@
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popover>
         </template>
-      </el-table-column>
-
+      </el-table-column> 
     </el-table>
-    <div style="margin-top: 20px">
-      <el-button type="warning" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
+    <div style="margin-top: 20px;margin-left:20px" >
+      <el-button type="danger" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
     </div>
-
     <!--分页组件-->
     <el-pagination
       :total="total"
-      style="margin-top: 8px;"
+      style="width: 98%;margin:10px auto;"
       layout="total, prev, pager, next, sizes"
       @size-change="sizeChange"
       @current-change="pageChange"/>
@@ -63,17 +68,16 @@
 <script>
 import checkPermission from '@/utils/permission'
 import initData from '@/mixins/initData'
-import { del } from '@/api/banner'
-import eHeader from './module/header'
-import edit from './module/edit'
+import { parseTime } from '@/utils/index'
+import { del } from '@/api/activityInformation'
+import { fetchList } from '@/api/article'
 export default {
-  components: { eHeader, edit },
   mixins: [initData],
   data() {
     return {
       delLoading: false, 
       sup_this: this,
-      sels:[],
+      sels:[]
     }
   },
   created() {
@@ -82,9 +86,10 @@ export default {
     })
   },
   methods: {
+    parseTime,
     checkPermission,
     beforeInit() {
-      this.url = 'api/banner'
+      this.imgUrl = 'api/activityInformation'
       const sort = 'id,desc'
       this.params = { page: this.page, size: this.size, sort: sort }
       const query = this.query
@@ -135,9 +140,17 @@ export default {
       this.$refs.table.toggleRowSelection(row) 
     } 
   }
+  
 }
 </script>
 
 <style scoped>
-
+.edit-input {
+  padding-right: 100px;
+}
+.cancel-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
 </style>

@@ -11,9 +11,9 @@
             <el-form-item label="文章标题">
                 <el-input  style="width: 370px;" v-model="form.title"/>
             </el-form-item>
-            <el-form-item label="文章主图">
-                <el-input style="width: 370px;" v-model="form.imgUrl"/>
-            </el-form-item>
+            <!-- <el-form-item label="文章链接">
+                <el-input style="width: 370px;"/>
+            </el-form-item> -->
             <el-form-item label="所属分类">
               <!-- <el-input  style="width: 370px;" placeholder="1：热门活动，2：景区新闻，3：旅游新闻" v-model="form.category"/> -->
               <el-select v-model="form.category" placeholder="请选择文章所属分类"  @change='ssflSelect' style="width:370px">
@@ -39,7 +39,7 @@
                 </el-select>
             </el-form-item>
             <div ref="editor" style="text-align:left;margin: 5px" :value="form.content">
-                   
+                    
             </div>
         </div>
     </el-form>
@@ -59,7 +59,6 @@ import { add, edit ,editdetail} from '@/api/activityInformation'
 var editor 
 const defaultForm = {
     title: '',
-    imgUrl:'',
     category: '',
     content: '',
     description: '',
@@ -156,9 +155,7 @@ export default {
         
         editdetail(id).then(res => {
           //根据id获得的值传给前台
-          this.form.title=res.title         
-          this.form.imgUrl=res.imgUrl
-          console.log(res.title)
+          this.form.title=res.title
           this.form.category=String(res.category) 
           this.form.content=res.content
           this.form.description=res.description
@@ -171,7 +168,7 @@ export default {
       /*点击完成文章*/
       doSubmit() {
             // 判断内容有没有输入完整
-            if(this.form.title===""||this.form.imgUrl===""||this.form.category===""||this.form.author===""||this.form.content===""||this.form.description===""||this.form.isShow===""){
+            if(this.form.title===""||this.form.category===""||this.form.author===""||this.form.content===""||this.form.description===""||this.form.isShow===""){
                this.$message({
                   message: '内容没有输入完整',
                   type: 'warning'
@@ -203,7 +200,6 @@ export default {
           editor.txt.html('')
           this.form = {
             title: '',
-            imgUrl:'',
             category: '',
             content: '',
             description: '',

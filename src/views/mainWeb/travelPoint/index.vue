@@ -5,10 +5,9 @@
     <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
       <el-table-column prop="id" label="id"/>
       <el-table-column prop="name" label="景点名称"/>
-      <el-table-column prop="sortNum" label="图片排序"/>
-      <el-table-column prop="imgUrl" label="主页图片"/>
-      <el-table-column prop="imgs" label="轮播图片"/>
-      <el-table-column prop="description" label="图片描述"/>
+      <el-table-column prop="sortNum" label="排序"/>
+      <el-table-column prop="imgUrl" label="图片url"/>
+      <el-table-column prop="description" label="描述"/>
       <el-table-column prop="transportation" label="交通方式"/>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
@@ -91,5 +90,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
