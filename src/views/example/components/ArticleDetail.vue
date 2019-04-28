@@ -51,11 +51,7 @@
                   </el-option>
                 </el-select>
             </el-form-item>
-            <div ref="editor" style="text-align:left;margin: 5px" :value="form.content">
-<<<<<<< HEAD
-=======
-                   
->>>>>>> e3894007724c32867591ef64ccdac8618344a4ca
+            <div ref="editor" style="text-align:left;margin: 5px" :value="form.content">         
             </div>
         </div>
     </el-form>
