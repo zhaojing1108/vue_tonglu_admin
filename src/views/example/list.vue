@@ -2,7 +2,7 @@
   <div>
     <router-link :to="'/example/create/'"><el-button type="primary" size="small" style="margin:10px 15px 5px">添加文章</el-button></router-link>
     <el-table v-loading="loading" :data="data" size="small" border style="width: 98%;margin:10px auto;">
-      <el-table-column prop="id" label="id"/>
+      <el-table-column prop="id" label="id" width="40px"/>
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="url" label="文章链接"/>
       <el-table-column prop="imgUrl" label="文章主图"/>
@@ -87,6 +87,7 @@ export default {
       this.params = { page: this.page, size: this.size, sort: sort }
       const query = this.query
       const type = query.type
+      console.log
       const value = query.value
       if (type && value) { this.params[type] = value }
       return true

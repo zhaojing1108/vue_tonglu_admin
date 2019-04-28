@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <eHeader :query="query"/>
+    <router-link :to="'/mainWeb/travelPoint/create'"><el-button type="primary" size="small" style="margin-bottom:15px">添加景点</el-button></router-link>
     <!--表格渲染-->
     <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
       <el-table-column prop="id" label="id"/>
@@ -11,7 +11,11 @@
       <el-table-column prop="transportation" label="交通方式"/>
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
-          <edit v-if="checkPermission(['ADMIN'])" :data="scope.row" :sup_this="sup_this"/>
+          <router-link :to="{path:'/mainWeb/travelPoint/edit',query:{id:scope.row.id}}" :sup_this="sup_this" >  
+            <el-button type="primary" size="small">
+             	 编辑
+            </el-button>
+          </router-link>
           <el-popover
             v-if="checkPermission(['ADMIN'])"
             :ref="scope.row.id"

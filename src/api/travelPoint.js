@@ -22,3 +22,11 @@ export function edit(data) {
     data
   })
 }
+
+export function editdetail(id) {
+  return request({
+    url: 'api/travelPointDetail/'+ id,
+    method: 'get'
+  })
+}
+

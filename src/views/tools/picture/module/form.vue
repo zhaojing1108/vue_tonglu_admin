@@ -70,6 +70,7 @@ export default {
     },
     // 监听上传失败
     handleError(e, file, fileList) {
+      alert(5)
       const msg = JSON.parse(e.message)
       this.$notify({
         title: msg.message,

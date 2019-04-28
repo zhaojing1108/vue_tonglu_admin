@@ -89,20 +89,20 @@ export const constantRouterMap = [
         path: 'create',
         component: () => import('@/views/example/create'),
         name: 'CreateArticle',
-        meta: { title: '添加职位', icon: 'edit' }
+        meta: { title: '添加文章', icon: 'edit' }
       },
       {
         path: 'edit/:id(\\d+)',
         component: () => import('@/views/example/edit'),
         name: 'EditArticle',
-        meta: { title: '修改职位', noCache: true, activeMenu: '/example/list' },
+        meta: { title: '修改文章', noCache: true, activeMenu: '/example/list' },
         hidden: true
       },
       {
         path: 'list',
         component: () => import('@/views/example/list'),
         name: 'ArticleList',
-        meta: { title: '职位列表', icon: 'list' }
+        meta: { title: '文章列表', icon: 'list' }
       }
     ]
   },
@@ -134,6 +134,37 @@ export const constantRouterMap = [
         component: () => import('@/views/aboutUs/talentRecruitment/index'),
         name: 'WorkList',
         meta: { title: '职位列表'}
+      }
+    ]
+  },
+  {
+    path: '/mainWeb/travelPoint',
+    component: Layout,
+    redirect: '/mainWeb/travelPoint/index',
+    name: 'travelPoint',
+    hidden: true,
+    meta: {
+      title: 'travelPoint',
+      icon: 'travelPoint'
+    },
+    children: [
+      {
+        path: 'create',
+        component: () => import('@/views/mainWeb/travelPoint/create'),
+        name: 'CreatePoint',
+        meta: { title: '添加景点' }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/mainWeb/travelPoint/edit'),
+        name: 'EditPoint',
+        meta: { title: '修改景点'}
+      },
+      {
+        path: 'index',
+        component: () => import('@/views/mainWeb/travelPoint/index'),
+        name: 'pointList',
+        meta: { title: '景点列表'}
       }
     ]
   },
