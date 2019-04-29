@@ -71,6 +71,7 @@ import { del } from '@/api/picture'
 //import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
 var editor 
 const defaultForm = {
+    id: '',
     title: '',
     imgUrl:'',
     category: '',
@@ -175,6 +176,7 @@ export default {
         /*点击编辑，通过id获得后台的值*/
         editdetail(id).then(res => {
           console.log(res)
+          this.form.id=res.id
           //根据id获得的值传给前台
           this.form.title=res.title         
           this.form.imgUrl=res.imgUrl
@@ -202,7 +204,9 @@ export default {
               return
             }
             this.loading = true
-            this.doAdd()
+             if (this.isAdd) {
+              this.doAdd()
+            } else this.doEdit()
         },
         /*增加文章执行的操作*/
         doAdd() {
@@ -220,6 +224,21 @@ export default {
                 this.loading = false
                 console.log(err.response.data.message)
             })
+        },
+        doEdit() {
+          edit(this.form).then(res => {
+            this.resetForm()
+            this.$notify({
+              title: '修改成功',
+              type: 'success',
+              duration: 2500
+            })
+            this.loading = false
+            this.sup_this.init()
+          }).catch(err => {
+            this.loading = false
+            console.log(err.response.data.message)
+          })
         },
         //清空表单
         resetForm() {

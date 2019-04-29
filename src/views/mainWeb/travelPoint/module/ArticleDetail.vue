@@ -54,12 +54,13 @@
 import MDinput from '@/components/MDinput'
 import { validURL } from '@/utils/validate'
 import { mapGetters } from 'vuex'
-import { add, edit } from '@/api/travelPoint'
+import { add, edit, editdetail } from '@/api/travelPoint'
 import { fetchArticle } from '@/api/article'
 import { getToken } from '@/utils/auth'
 //import Warning from './Warning'
 //import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
 const defaultForm = {
+    id: '',
     name: '',
     enName:'',
     imgUrl: '',
@@ -111,12 +112,21 @@ export default {
   methods: {
       fetchData(id) {
         /*点击编辑，通过id获得后台的值*/
-        // editdetail(id).then(res => {
-        //   //根据id获得的值传给前台
-        //   console.log(res)
-        // }).catch(err => {
+        editdetail(id).then(res => {
+          //根据id获得的值传给前台
+          console.log(res)
+          this.form.id=res.id
+          this.form.name=res.name         
+          this.form.enName=res.enName      
+          this.form.description=res.description
+          this.form.transportation=res.transportation
+          this.form.imgUrl=res.imgUrl
+          this.indeximages=[{url:res.imgUrl}]
+          this.form.images=res.images
+          this.flashimages=res.images
+        }).catch(err => {
           
-        // })
+        })
       },
       /*点击完成文章*/
       doSubmit() {
@@ -131,7 +141,9 @@ export default {
           } 
           //console.log(this.form)
           this.loading = true
-          this.doAdd()
+          if (this.isAdd) {
+            this.doAdd()
+          } else this.doEdit()
       },
       /*增加文章执行的操作*/
       doAdd() {
@@ -144,6 +156,22 @@ export default {
           })
           this.loading = false
           this.$parent.$parent.init()
+        }).catch(err => {
+          this.loading = false
+          console.log(err.response.data.message)
+        })
+      },
+      doEdit() {
+        edit(this.form).then(res => {
+          console.log(this.form)
+          this.resetForm()
+          this.$notify({
+            title: '修改成功',
+            type: 'success',
+            duration: 2500
+          })
+          this.loading = false
+          this.sup_this.init()
         }).catch(err => {
           this.loading = false
           console.log(err.response.data.message)
@@ -168,18 +196,15 @@ export default {
             return true
           }
         }
-         var b=file.response.id
-         console.log(b)
-        //  var thisb=b.join()
-        //  for (let y = 0; y <this.form.images.length; y++) {
-        //       if(this.form.images[y].id===thisb){
-        //         console.log(y)
-        //         this.form.images.splice(y,1);
-        //       }
+          var b=file.id
+          for (let y = 0; y <this.form.images.length; y++) {
+          if(this.form.images[y].id===b){
+            this.form.images.splice(y,1);
+          }
 
-        //  }
+         }
         //删除的时候清空form里面imgurl的值
-        console.log(this.form.images.length)
+        console.log(this.form.flashimages)
       },
       //获得主图的链接
       doindeximgSubmit(file, fileList){
