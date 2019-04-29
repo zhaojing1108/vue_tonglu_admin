@@ -37,6 +37,7 @@ import { getToken } from '@/utils/auth'
 //import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
 var editor 
 const defaultForm = {
+    id: '',
     positionName: '',
     address: '',
     categories: '',
@@ -99,6 +100,7 @@ export default {
       },
       fetchData(id) {
          editdetail(id).then(res => {
+           this.form.id=res.id
           //根据id获得的值传给前台
            this.form.positionName=res.positionName
            this.form.address=res.address
@@ -120,7 +122,10 @@ export default {
             return
           }
           this.loading = true
-          this.doAdd()
+          
+          if (this.isAdd) {
+            this.doAdd()
+          } else this.doEdit()
       },
       /*增加文章执行的操作*/
       doAdd() {
@@ -133,6 +138,21 @@ export default {
           })
           this.loading = false
           this.$parent.$parent.init()
+        }).catch(err => {
+          this.loading = false
+          console.log(err.response.data.message)
+        })
+      },
+      doEdit() {
+        edit(this.form).then(res => {
+          this.resetForm()
+          this.$notify({
+            title: '修改成功',
+            type: 'success',
+            duration: 2500
+          })
+          this.loading = false
+          this.sup_this.init()
         }).catch(err => {
           this.loading = false
           console.log(err.response.data.message)
