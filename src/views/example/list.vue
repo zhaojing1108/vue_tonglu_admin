@@ -1,18 +1,24 @@
 <template>
   <div>
     <router-link :to="'/example/create/'"><el-button type="primary" size="small" style="margin:10px 15px 5px">添加文章</el-button></router-link>
-    <el-table v-loading="loading" :data="data" size="small" border style="width: 98%;margin:10px auto;">
+    <el-table v-loading="loading" :data="data" size="small" border style="width: 98%;margin:10px auto;" >
       <el-table-column prop="id" label="id" width="40px"/>
       <el-table-column prop="title" label="标题"/>
       <el-table-column prop="url" label="文章链接"/>
       <el-table-column prop="imgUrl" label="文章主图"/>
-      <el-table-column prop="category" label="所属分类">
-        <template slot-scope="scope">
-          <span v-if="scope.row.category == 1">热门活动</span>  
+      <el-table-column prop="imgUrl" label="文章主图"/>
+
+      <el-table-column prop="category" label="所属分类" 
+      column-key="category"
+      :filters="tableStatus" 
+      :filter-method="handleFilterChange" >
+        <template slot-scope="scope">          
+          <span v-if="scope.row.category == 1"> 热门活动</span>  
           <span v-else-if="scope.row.category == 2">景区新闻</span>
           <span v-else-if="scope.row.category == 3">旅游新闻</span>
         </template>
       </el-table-column>
+      
       <el-table-column prop="author" label="文章作者"/>
       <!-- <el-table-column prop="content" label="文章内容"/> -->
       <el-table-column prop="description" label="在首页上的简介"/>
@@ -66,11 +72,13 @@ export default {
       delLoading: false, 
       sup_this: this,
       sels:[],
-      categorylist:[
-        {text:'热门活动',value:'热门活动'},
-        {text:'景区新闻',value:'景区新闻'},
-        {text:'旅游新闻',value:'旅游新闻'},
-      ]
+      scope:'',
+      tableStatus: 
+      [
+        { text: '景区新闻', value: '1' },
+        { text: '热门活动', value: '2' },
+        { text: '旅游活动', value: '3' }
+      ],
     }
   },
   created() {
@@ -130,6 +138,11 @@ export default {
         console.log(err.response.data.message)
       })
     }, 
+    handleFilterChange(filters) {
+      console.log(filters)
+      // const property = column['property'];
+      // return row[property] === value;
+    },
   }
 }
 </script>
