@@ -6,25 +6,10 @@
       <el-option v-for="item in queryTypeOptions" :key="item.key" :label="item.display_name" :value="item.key"/>
     </el-select>
     <el-button class="filter-item" size="mini" type="primary" icon="el-icon-search" @click="toQuery">搜索</el-button>
-    <!-- 新增 -->
-    <div style="display: inline-block;margin: 0px 2px;">
-      <el-button
-        v-if="checkPermission(['ADMIN'])"
-        class="filter-item"
-        size="mini"
-        type="primary"
-        icon="el-icon-plus"
-        @click="$refs.form.dialog = true">新增</el-button>
-      <eForm ref="form" :is-add="true"/>
-    </div>
   </div>
 </template>
-
 <script>
-import checkPermission from '@/utils/permission' // 权限判断函数
-import eForm from './form'
 export default {
-  components: { eForm },
   props: {
     query: {
       type: Object,
@@ -40,7 +25,6 @@ export default {
     }
   },
   methods: {
-    checkPermission,
     toQuery() {
       this.$parent.page = 0
       this.$parent.init()
@@ -48,7 +32,10 @@ export default {
   }
 }
 </script>
-<style>
-  
+<style scoped>
+.head-container{
+  width: 420px;
+  float: left;
+}
 </style>
 

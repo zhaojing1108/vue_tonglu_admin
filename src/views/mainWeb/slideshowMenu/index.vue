@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <eHeader :query="query"/>
+    <el-button class="btn" style="height:31px" type="primary"  size="mini" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button>
     <!--表格渲染-->
     <el-table v-loading="loading" 
     :data="data" 
@@ -40,10 +41,6 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <div style="margin-top: 20px">
-      <el-button type="warning" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
-    </div>
     <!--分页组件-->
     <el-pagination
       :total="total"
@@ -85,6 +82,10 @@ export default {
       this.url = 'api/bannerMenu'
       const sort = 'id,desc'
       this.params = { page: this.page, size: this.size, sort: sort }
+      const query = this.query
+      const type = query.type
+      const value = query.value
+      if (type && value) { this.params[type] = value }
       return true
     },
     subDelete(id) {
@@ -140,6 +141,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

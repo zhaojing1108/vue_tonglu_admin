@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <eHeader :query="query"/>
+    <el-button class="btn" type="primary" style="height:31px"  size="mini" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
     <!--表格渲染-->
     <el-table 
     v-loading="loading" 
@@ -40,9 +41,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <div style="margin-top: 20px">
-      <el-button type="warning" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
-    </div>
     <!--分页组件-->
     <el-pagination
       :total="total"

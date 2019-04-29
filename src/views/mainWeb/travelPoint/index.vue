@@ -1,8 +1,22 @@
 <template>
   <div class="app-container">
-    <router-link :to="'/mainWeb/travelPoint/create'"><el-button type="primary" size="small" style="margin-bottom:15px">添加景点</el-button></router-link>
+    <eHeader :query="query"/>
+    <router-link  :to="'/mainWeb/travelPoint/create'"><el-button calss="btnn1" type="primary" style="height:30px;boder:none;margin-right:5px;" size="small" >添加景点</el-button></router-link>
+    <el-button type="primary" style="height:32px;padding:10px;width:80px;" class="btnn2" size="mini" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button>
     <!--表格渲染-->
-    <el-table v-loading="loading" :data="data" size="small" border style="width: 100%;">
+    <el-table v-loading="loading" 
+    :data="data" size="small"
+     border style="width: 100%;"
+     :fit="true"
+    @row-click="handleCurrentChange" 
+    @selection-change="selsChange" 
+    ref="table">
+    <el-table-column 
+      type="selection" 
+      width="55"  
+      prop="uuid"
+      :reserve-selection="true">
+      </el-table-column>
       <el-table-column prop="id" label="id"/>
       <el-table-column prop="name" label="景点名称"/>
       <el-table-column prop="sortNum" label="排序"/>
@@ -52,7 +66,9 @@ export default {
   mixins: [initData],
   data() {
     return {
-      delLoading: false, sup_this: this
+      delLoading: false, 
+      sup_this: this,
+       sels:[],
     }
   },
   created() {
@@ -88,10 +104,37 @@ export default {
         this.$refs[id].doClose()
         console.log(err.response.data.message)
       })
-    }
+    },
+     // 批量删除
+    selsChange(sels) { 
+      this.sels = sels 
+    }, 
+    delGroup() { 
+      var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔 
+      console.log(ids)
+      this.delLoading = true
+      del(ids).then(res => {
+        this.delLoading = false
+        this.init()
+        this.$notify({
+          title: '删除成功',
+          type: 'success',
+          duration: 2500
+        })
+      }).catch(err => {
+        this.delLoading = false
+        console.log(err.response.data.message)
+      })
+    }, 
+    handleCurrentChange(row, event, column) { 
+      this.$refs.table.toggleRowSelection(row) 
+    } 
   }
 }
 </script>
 
-<style scoped>
+<style >
+.btnn1{
+  
+}
 </style>

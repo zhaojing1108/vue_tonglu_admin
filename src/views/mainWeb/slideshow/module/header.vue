@@ -48,3 +48,10 @@ export default {
   }
 }
 </script>
+<style>
+  .head-container{
+    width: 500px;
+    float: left;
+  }
+</style>
+
