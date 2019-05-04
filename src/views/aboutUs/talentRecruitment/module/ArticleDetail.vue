@@ -81,6 +81,7 @@ export default {
   },
   mounted() {
     /*创建富文本*/
+    console.log(this.form)
     this.seteditor()
   },
   methods: {
@@ -105,14 +106,16 @@ export default {
            this.form.positionName=res.positionName
            this.form.address=res.address
            this.form.categories=res.categories
+           this.form.content=res.content
            editor.txt.html(res.content)
         }).catch(err => {
           
         })
       },
       /*点击完成文章*/
+   
       doSubmit() {
-          // 判断内容有没有输入完整
+          // 判断内容有没有输入完整 
           console.log(this.form)
           if(this.form.positionName===""||this.form.address===""||this.form.categories===""||this.form.content===""){
               this.$message({
@@ -121,11 +124,13 @@ export default {
               });
             return
           }
+          if (this.isEdit) {
+            this.doEdit()
+          } else{
+            this.doAdd()
+          } 
           this.loading = true
           
-          if (this.isAdd) {
-            this.doAdd()
-          } else this.doEdit()
       },
       /*增加文章执行的操作*/
       doAdd() {

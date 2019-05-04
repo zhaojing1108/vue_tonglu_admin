@@ -204,9 +204,11 @@ export default {
               return
             }
             this.loading = true
-             if (this.isAdd) {
-              this.doAdd()
-            } else this.doEdit()
+             if (this.isEdit) {
+               this.doEdit()
+            } else {
+               this.doAdd()
+            }
         },
         /*增加文章执行的操作*/
         doAdd() {
