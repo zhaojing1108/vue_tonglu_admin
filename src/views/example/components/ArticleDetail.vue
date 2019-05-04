@@ -11,9 +11,9 @@
             <el-form-item label="文章标题">
                 <el-input  style="width: 370px;" v-model="form.title"/>
             </el-form-item>
-            <el-form-item label="文章主图">
+            <!-- <el-form-item label="文章主图">
                 <el-input style="width: 370px;" v-model="form.imgUrl"/>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="所属分类">
               <!-- <el-input  style="width: 370px;" placeholder="1：热门活动，2：景区新闻，3：旅游新闻" v-model="form.category"/> -->
               <el-select v-model="form.category" placeholder="请选择文章所属分类"  @change='ssflSelect' style="width:370px">
@@ -51,7 +51,7 @@
                   </el-option>
                 </el-select>
             </el-form-item>
-            <div ref="editor" style="text-align:left;margin: 5px" :value="form.content">         
+            <div ref="editor" style="text-align:left;margin: 5px;" :value="form.content">         
             </div>
         </div>
     </el-form>
@@ -196,7 +196,7 @@ export default {
       doSubmit() {
             console.log(this.form)
             // 判断内容有没有输入完整
-            if(this.form.title===""||this.form.imgUrl===""||this.form.category===""||this.form.author===""||this.form.content===""||this.form.description===""||this.form.isShow===""){
+            if(this.form.title===""||this.form.imgUrl===""||this.form.category===""||this.form.author===""||this.form.content==="<p><br></p>"||this.form.content===""||this.form.description===""||this.form.isShow===""){
                this.$message({
                   message: '内容没有输入完整',
                   type: 'warning'
@@ -204,9 +204,11 @@ export default {
               return
             }
             this.loading = true
-             if (this.isAdd) {
-              this.doAdd()
-            } else this.doEdit()
+             if (this.isEdit) {
+               this.doEdit()
+            } else {
+               this.doAdd()
+            }
         },
         /*增加文章执行的操作*/
         doAdd() {
@@ -234,10 +236,10 @@ export default {
               duration: 2500
             })
             this.loading = false
-            this.sup_this.init()
+            //this.sup_this.init()
           }).catch(err => {
             this.loading = false
-            console.log(err.response.data.message)
+            console.log(err.response.message)
           })
         },
         //清空表单
