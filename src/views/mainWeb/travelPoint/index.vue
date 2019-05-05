@@ -137,7 +137,5 @@ export default {
 </script>
 
 <style >
-.btnn1{
-  
-}
+
 </style>
