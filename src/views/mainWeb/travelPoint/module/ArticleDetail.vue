@@ -141,9 +141,11 @@ export default {
           } 
           //console.log(this.form)
           this.loading = true
-          if (this.isAdd) {
+          if (this.isEdit) {
+            this.doEdit()
+          } else{
             this.doAdd()
-          } else this.doEdit()
+          } 
       },
       /*增加文章执行的操作*/
       doAdd() {
