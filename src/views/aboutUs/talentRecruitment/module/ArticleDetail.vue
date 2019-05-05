@@ -70,7 +70,7 @@ export default {
   },
   created() {
   //这边接收上个组件传递过来的arry数组，赋值给data中定义的workTask
-    this.detailId = this.$route.query.id;
+     this.detailId = this.$route.query.id;
     /*判断是编辑还是新增文章*/
     if (this.isEdit) {
       const id = this.detailId
@@ -81,7 +81,6 @@ export default {
   },
   mounted() {
     /*创建富文本*/
-    console.log(this.form)
     this.seteditor()
   },
   methods: {
@@ -116,8 +115,7 @@ export default {
    
       doSubmit() {
           // 判断内容有没有输入完整 
-          console.log(this.form)
-          if(this.form.positionName===""||this.form.address===""||this.form.categories===""||this.form.content===""){
+          if(this.form.positionName===""||this.form.address===""||this.form.categories===""||this.form.content===""||this.form.content==="<p><br></p>"){
               this.$message({
                 message: '内容没有输入完整',
                 type: 'warning'

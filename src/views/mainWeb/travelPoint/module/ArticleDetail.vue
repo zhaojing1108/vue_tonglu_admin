@@ -130,13 +130,13 @@ export default {
       },
       /*点击完成文章*/
       doSubmit() {
-        console.log(this.form.images)
+        console.log(this.form)
           // 判断内容有没有输入完整
-          if(this.form.name===""||this.form.imgUrl===""||this.form.images.length==0||this.form.description===""||this.form.transportation===""||this.form.enName===""){
+            if(this.form.name===""||this.form.imgUrl===""||this.form.images.length==0||this.form.description===""||this.form.transportation===""||this.form.enName===""){
               this.$message({
                 message: '内容没有输入完整',
                 type: 'warning'
-              });
+            });
             return
           } 
           //console.log(this.form)
@@ -165,7 +165,7 @@ export default {
       },
       doEdit() {
         edit(this.form).then(res => {
-          console.log(this.form)
+          //console.log(this.form)
           this.resetForm()
           this.$notify({
             title: '修改成功',
@@ -173,7 +173,7 @@ export default {
             duration: 2500
           })
           this.loading = false
-          this.sup_this.init()
+          //this.sup_this.init()
         }).catch(err => {
           this.loading = false
           console.log(err.response.data.message)
@@ -227,7 +227,7 @@ export default {
         this.form = {
           name: '',
           imgUrl: '',
-          images:'',
+          images:[],
           description: '',
           transportation: ''
         }
