@@ -70,7 +70,7 @@ export default {
   },
   created() {
   //这边接收上个组件传递过来的arry数组，赋值给data中定义的workTask
-    this.detailId = this.$route.query.id;
+     this.detailId = this.$route.query.id;
     /*判断是编辑还是新增文章*/
     if (this.isEdit) {
       const id = this.detailId
