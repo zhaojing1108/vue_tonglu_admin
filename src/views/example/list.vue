@@ -80,6 +80,7 @@ import { parseTime } from '@/utils/index'
 import { del } from '@/api/activityInformation'
 import { fetchList } from '@/api/article'
 import eHeader from './header'
+import {dels}from '@/api/activityInformation'
 export default {
   components: { eHeader},
   mixins: [initData],
@@ -126,29 +127,30 @@ export default {
         console.log(err.response.data.message)
       })
     },
-      // 批量删除
+     // 批量删除
     selsChange(sels) { 
       this.sels = sels 
-    }, 
+    },      
     delGroup() { 
-      var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔 
+      var ids = JSON.stringify(this.sels.map(item => item.id))
       console.log(ids)
       this.delLoading = true
-      del(ids).then(res => {
-        this.delLoading = false
+      this.init()
+      dels(ids).then(res => {
+       this.delLoading = false 
         this.init()
         this.$notify({
           title: '删除成功',
           type: 'success',
           duration: 2500
-        })
+        })         
       }).catch(err => {
         this.delLoading = false
         console.log(err.response.data.message)
       })
     }, 
-    handleCurrentChange(row, event, column) { 
-      this.$refs.table.toggleRowSelection(row) 
+    handleCurrentChange(val) { 
+      this.table = val
     } 
   }
 }

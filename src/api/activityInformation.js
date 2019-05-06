@@ -15,6 +15,14 @@ export function del(id) {
   })
 }
 
+export function delGroup(data) {
+  return request({
+    url: 'api/activityInformation',
+    method: 'post',
+    data: data
+  })
+}
+
 export function edit(data) {
   return request({
     url: 'api/activityInformation',
