@@ -21,8 +21,8 @@
       <el-table-column prop="name" label="景点名称"/>
       <el-table-column prop="sortNum" label="排序"/>
       <el-table-column prop="imgUrl" label="图片url"/>
-      <el-table-column prop="description" label="描述"/>
-      <el-table-column prop="transportation" label="交通方式"/>
+      <!-- <el-table-column prop="description" label="描述"/> -->
+      <!-- <el-table-column prop="transportation" label="交通方式"/> -->
       <el-table-column label="操作" width="150px" align="center">
         <template slot-scope="scope">
           <router-link :to="{path:'/mainWeb/travelPoint/edit',query:{id:scope.row.id}}" :sup_this="sup_this" >  
@@ -61,15 +61,17 @@ import initData from '@/mixins/initData'
 import { del } from '@/api/travelPoint'
 import { dels } from '@/api/travelPoint'
 import eHeader from './module/header'
-import edit from './module/edit'
+import { fetchList } from '@/api/article'
+import { parseTime } from '@/utils/index'
 export default {
-  components: { eHeader, edit },
+  components: { eHeader },
   mixins: [initData],
   data() {
     return {
       delLoading: false, 
       sup_this: this,
-       sels:[],
+      sels:[],
+      scope:'',
     }
   },
   created() {
@@ -78,6 +80,7 @@ export default {
     })
   },
   methods: {
+    parseTime,
     checkPermission,
     beforeInit() {
       this.url = 'api/travelPoint'
@@ -137,7 +140,5 @@ export default {
 </script>
 
 <style >
-.btnn1{
-  
-}
+
 </style>
