@@ -1,8 +1,10 @@
 <template>
-  <div class="app-container">
-    <eHeader :query="query"/>
-    <router-link  :to="'/mainWeb/travelPoint/create'"><el-button calss="btnn1" type="primary" style="height:30px;boder:none;margin-right:5px;" size="small" >添加景点</el-button></router-link>
-    <el-button  class="btn" type="primary" style="height:31px" size="mini" :loading="delLoading" @click="delGroup()" :disabled="this.sels.length === 0">批量删除</el-button>
+<div class="app-container conta">
+    <div class="wap">
+      <eHeader :query="query" class="fl" />
+       <router-link  :to="'/mainWeb/travelPoint/create'"><el-button calss="btnn1" type="primary" size="small" style="height:29px;">添加景点</el-button></router-link>
+      <el-button style="height:32px;padding:10px;width:80px; margin-left:5px;" type="primary"  size="mini" :loading="delLoading" @click="delGroup()" :disabled="this.sels.length === 0">批量删除</el-button>
+    </div>
     <!--表格渲染-->
     <el-table v-loading="loading" 
     :data="data" size="small"
@@ -139,6 +141,6 @@ export default {
 }
 </script>
 
-<style >
+<style scoped >
 
 </style>

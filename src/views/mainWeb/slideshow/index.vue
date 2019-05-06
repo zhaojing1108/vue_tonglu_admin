@@ -1,7 +1,9 @@
 <template>
-  <div class="app-container">
-    <eHeader :query="query"/>
-    <el-button  class="btn" type="primary" style="height:31px" size="mini" :loading="delLoading" @click="delGroup()" :disabled="this.sels.length === 0">批量删除</el-button>
+  <div class="app-container conta">
+    <div class="wap">
+      <eHeader :query="query" class="fl" />
+      <el-button  class="bt" type="primary"  size="mini" :loading="delLoading" @click="delGroup()" :disabled="this.sels.length === 0">批量删除</el-button>
+    </div>
     <!--表格渲染-->
     <el-table 
     :data="data" 
@@ -135,12 +137,6 @@ export default {
 }
 </script>
 
-<style scoped>
-.app-container{
-  position: relative;
-}
-.btn{
-  float: left;
-  height: 31px;
-}
+<style >
+
 </style>

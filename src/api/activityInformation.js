@@ -15,10 +15,10 @@ export function del(id) {
   })
 }
 
-export function delGroup(data) {
+export function dels(data) {
   return request({
-    url: 'api/activityInformation',
-    method: 'post',
+    url: 'api/activityInformation/bashDel',
+    method: 'delete',
     data: data
   })
 }

@@ -1,8 +1,10 @@
-<template>
-  <div style="padding:20px">
-    <eHeader :query="query"/>
-    <router-link :to="'/example/create/'"><el-button type="primary" size="small" style="height:30px;boder:none;margin-right:5px;">添加文章</el-button></router-link>
-    <el-button type="primary" style="height:32px;padding:10px;width:80px;" size="mini" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button>
+<template> 
+    <div class="app-container conta">
+    <div class="wap">
+      <eHeader :query="query" class="fl" />
+      <router-link :to="'/example/create/'"><el-button type="primary" size="small" style="height:29px;">添加文章</el-button></router-link>
+      <el-button type="primary" style="height:32px;padding:10px;width:80px; margin-left:5px;" size="small" :loading="delLoading" @click="delGroup()" :disabled="this.sels.length === 0">批量删除</el-button>
+    </div>   
     <el-table 
     v-loading="loading" 
     :data="data" size="small" 
@@ -60,9 +62,6 @@
         </template>
       </el-table-column> 
     </el-table>
-    <div style="margin-top: 20px;margin-left:20px" >
-      <el-button type="danger" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button><!--disabled值动态显示，默认为true,当选中复选框后值为false-->
-    </div>
     <!--分页组件-->
     <el-pagination
       :total="total"
@@ -127,7 +126,7 @@ export default {
         console.log(err.response.data.message)
       })
     },
-     // 批量删除
+    // 批量删除
     selsChange(sels) { 
       this.sels = sels 
     },      
@@ -143,7 +142,7 @@ export default {
           title: '删除成功',
           type: 'success',
           duration: 2500
-        })         
+        })        
       }).catch(err => {
         this.delLoading = false
         console.log(err.response.data.message)
