@@ -15,6 +15,14 @@ export function del(id) {
   })
 }
 
+export function dels(data) {
+  return request({
+    url: 'api/activityInformation/bashDel',
+    method: 'delete',
+    data: data
+  })
+}
+
 export function edit(data) {
   return request({
     url: 'api/activityInformation',

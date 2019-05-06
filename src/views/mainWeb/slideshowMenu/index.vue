@@ -1,7 +1,9 @@
 <template>
-  <div class="app-container">
-    <eHeader :query="query"/>
-    <el-button class="btn" style="height:31px" type="primary"  size="mini" @click="delGroup" :disabled="this.sels.length === 0">批量删除</el-button>
+  <div class="app-container conta">
+    <div class="wap">
+      <eHeader :query="query" class="fl" />
+      <el-button  class="bt" type="primary"  size="mini" :loading="delLoading" @click="delGroup()" :disabled="this.sels.length === 0">批量删除</el-button>
+    </div>
     <!--表格渲染-->
     <el-table v-loading="loading" 
     :data="data" 
@@ -55,6 +57,7 @@
 import checkPermission from '@/utils/permission'
 import initData from '@/mixins/initData'
 import { del } from '@/api/bannerMenu'
+import { dels } from '@/api/bannerMenu'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
 import edit from './module/edit'
@@ -113,34 +116,35 @@ export default {
       } 
       return moment(date).format("YYYY年MM月DD日 "); 
     },
-    // 批量删除
+   // 批量删除
     selsChange(sels) { 
       this.sels = sels 
-    }, 
+    },      
     delGroup() { 
-      var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔 
+      var ids = JSON.stringify(this.sels.map(item => item.id))
       console.log(ids)
       this.delLoading = true
-      del(ids).then(res => {
-        this.delLoading = false
+      this.init()
+      dels(ids).then(res => {
+       this.delLoading = false 
         this.init()
         this.$notify({
           title: '删除成功',
           type: 'success',
           duration: 2500
         })
+          
       }).catch(err => {
         this.delLoading = false
         console.log(err.response.data.message)
       })
     }, 
-    handleCurrentChange(row, event, column) { 
-      this.$refs.table.toggleRowSelection(row) 
+    handleCurrentChange(val) { 
+      this.table = val
     } 
   }
 }
 </script>
 
 <style>
-
 </style>
